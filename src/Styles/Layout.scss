@@ -1,0 +1,50 @@
+@import './Imports/Colours.scss';
+@import './Imports/Breakpoints.scss';
+$nav-bg-color: $indigo-dye;
+$nav-link-color: white;
+$nav-link-color-hover: $moonstone;
+
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 13vh;
+  padding: 5px 20px;
+  background-color: $nav-bg-color;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+
+  // Navigation Bar
+  ul {
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    // Navigation Links
+    li {
+      list-style-type: none;
+      a {
+        color: $nav-link-color;
+        text-decoration: none;
+        transition: color 0.2s ease-out;
+
+        &:hover {
+          color: $nav-link-color-hover;
+        }
+      }
+    }
+  }
+
+  @media (min-height: $smh) {
+    height: 10vh;
+  }
+  @media (min-height: $mdh) {
+    height: 8vh;
+  }
+  @media (min-height: $lgh) {
+    height: 5vh;
+  }
+}

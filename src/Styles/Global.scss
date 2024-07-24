@@ -1,0 +1,14 @@
+@import './Imports/Breakpoints.scss';
+.body-container {
+  margin-top: 13vh;
+
+  @media (min-height: $smh) {
+    margin-top: 10vh;
+  }
+  @media (min-height: $mdh) {
+    margin-top: 8vh;
+  }
+  @media (min-height: $lgh) {
+    margin-top: 5vh;
+  }
+}
