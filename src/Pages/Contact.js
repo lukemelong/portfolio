@@ -1,3 +1,4 @@
+import '../Styles/Contact.scss'
 
 function Contact(){
 

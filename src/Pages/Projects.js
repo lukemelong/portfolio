@@ -1,3 +1,4 @@
+import '../Styles/Projects.scss'
 
 function Projects(){
 
