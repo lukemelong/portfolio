@@ -1,0 +1,64 @@
+@import './Imports/Colours.scss';
+@import './Imports/Breakpoints.scss';
+@import './Global.scss';
+
+.header {
+  height: 87vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Kode Mono", monospace;
+
+  @media (min-height: $smh) {
+    height: 90vh;
+  }
+  @media (min-height: $mdh) {
+    height: 92vh;
+  }
+  @media (min-height: $lgh) {
+    height: 95vh;
+  }
+}
+
+.section {
+  width: 100%;
+  min-height: 400px;
+  border-top: 1px solid black;
+  @include flex-center-column;
+}
+.headerTitle {
+  font-size: 100px;
+  margin: 20px;
+}
+.headerSubtitle {
+  font-size: 30px;
+  margin: 0;
+}
+
+/* About */
+.aboutContainer {
+  @include flex-center;
+}
+// First section
+.aboutText {
+  padding: 50px;
+  width: 30%;
+}
+.aboutImageContainer {
+  width: 30%;
+ @include flex-center;
+}
+.aboutImage {
+  clip-path: polygon(25% 0, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  background-image: url('../Images/luke.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 300px;
+}
+// Second section
+.description {
+  @include flex-center-column;
+}

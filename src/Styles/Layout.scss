@@ -1,12 +1,13 @@
 @import './Imports/Colours.scss';
 @import './Imports/Breakpoints.scss';
 $nav-bg-color: $indigo-dye;
-$nav-link-color: white;
+$nav-link-color: #f8f8e7;
 $nav-link-color-hover: $moonstone;
 
 
 nav {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -15,7 +16,7 @@ nav {
   background-color: $nav-bg-color;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   box-sizing: border-box;
 
   // Navigation Bar
@@ -23,18 +24,30 @@ nav {
     display: flex;
     gap: 30px;
     margin: 0;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     // Navigation Links
     li {
       list-style-type: none;
       a {
         color: $nav-link-color;
-        text-decoration: none;
-        transition: color 0.2s ease-out;
+        transition: color .2s ease-out;
 
         &:hover {
           color: $nav-link-color-hover;
         }
       }
+    }
+  }
+  .nav-logo {
+    font-family: "Graduate", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    transition: color .2s ease-out;
+    &:hover {
+      color: $nav-link-color-hover;
     }
   }
 

@@ -6,6 +6,9 @@ function Layout() {
   return (
     <>
       <nav>
+        <Link to='/'>
+          <h1 className='nav-logo'>LM</h1>
+        </Link>
         <ul>
           <li>
             <Link to='/'>Home</Link>

@@ -1,7 +1,11 @@
 @import './Imports/Breakpoints.scss';
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
-
-.body-container {
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Graduate&family=Kode+Mono:wght@400..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.bodyContainer {
   margin-top: 13vh;
 
   @media (min-height: $smh) {
@@ -13,4 +17,22 @@
   @media (min-height: $lgh) {
     margin-top: 5vh;
   }
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-center {
+  @include flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
 }
