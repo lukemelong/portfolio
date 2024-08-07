@@ -1,4 +1,8 @@
 import home from '../Styles/Home.module.scss'
+import ProjectCard from '../Components/ProjectCard'
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import CustomToggle from '../Components/CustomToggle'
 
 function Home() {
 
@@ -26,7 +30,27 @@ function Home() {
         </div>
       </div>
       <div className={home.section}>
-        <h1>Projects</h1>
+        <div className={home.cardsContainer}>
+          <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+          <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+          <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+        </div>
+        <Accordion className={home.accordion} flush>
+          <Card className={home.accordionCard}>
+            <Card.Header className={home.accordionHeader}>
+              <CustomToggle>See more</CustomToggle>
+            </Card.Header>
+            <Accordion.Collapse>
+              <Card.Body>
+                <div className={home.cardsContainer}>
+                  <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+                  <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+                  <ProjectCard title="Title" description="Look at my cool project" img="/images/test.png" button="Push me"></ProjectCard>
+                </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
       </div>
       <div className={home.section}>
         <h1>Contact</h1>
