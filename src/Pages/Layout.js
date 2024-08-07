@@ -6,19 +6,8 @@ function Layout() {
   return (
     <>
       <nav>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            <Link to='/About'>About</Link>
-          </li>
-          <li>
-            <Link to='/Projects'>Projects</Link>
-          </li>
-          <li>
-            <Link to='/Contact'>Contact</Link>
-          </li>
+        <ul style={{ padding: 0 }}>
+          <h1 className="nav-logo">LM</h1>
         </ul>
       </nav>
       <Outlet />

@@ -15,7 +15,7 @@ nav {
   background-color: $nav-bg-color;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   box-sizing: border-box;
 
   // Navigation Bar
@@ -38,6 +38,19 @@ nav {
     }
   }
 
+  .nav-logo {
+    font-family: "Kode Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    transition: color .2s ease-out;
+    margin: 0;
+    cursor: default;
+    &:hover {
+      color: $nav-link-color-hover;
+    }
+  }
+
   @media (min-height: $smh) {
     height: 10vh;
   }
@@ -45,6 +58,6 @@ nav {
     height: 8vh;
   }
   @media (min-height: $lgh) {
-    height: 5vh;
+    height: 7vh;
   }
 }
