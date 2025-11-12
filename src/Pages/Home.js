@@ -91,7 +91,7 @@ function Home() {
                   <Card.Img variant="top" src="images/nimble.png" alt="Project 1" />
                   <Card.Body>
                     <Card.Title>Nimble Smart Cloud</Card.Title>
-                    <Card.Text>The core of all services at Nimble, Smart Cloud allows clients to manage their documents through the cloud. Whether the document originated physically or digitally, users can view, annotate, and delete documents at an enterprise level.</Card.Text>
+                    <Card.Text>The core of all services at Nimble, Smart Cloud allows enterprise level management of all a clients documents.</Card.Text>
                     <div>
                       <Button href="/nflscoreboard">View Project</Button>
                     </div>
