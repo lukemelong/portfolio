@@ -33,7 +33,7 @@ function Home() {
     setFormStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch('https://www.lukemelong.com/send-email.php', {
+      const response = await fetch('https://lukemelong.com/send-email.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
