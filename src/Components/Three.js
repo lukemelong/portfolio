@@ -23,7 +23,7 @@ const SunriseForestScene = ({ children }) => {
       0.1,
       100
     );
-    camera.position.set(baseCameraX, baseCameraY, baseCameraZ);
+    camera.position.set(baseCameraX, baseCameraY + 1, baseCameraZ + 1);
     camera.lookAt(0, 0, 1);
 
     // === Renderer ===

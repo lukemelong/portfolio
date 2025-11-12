@@ -79,13 +79,25 @@ function Home() {
               <text ref={textRef} x="0" y="100">Luke Melong</text>
             </svg>
           </div>
-          <p>Full Stack Developer</p>
+          <p className="page-subtitle">Full Stack Developer</p>
         </section>
 
         <section className="home-section home-projects">
           <Container className="project-card-container">
             <h2 className="text-center mb-4">My Projects</h2>
             <Carousel className="clickable">
+              <Carousel.Item>
+                <Card>
+                  <Card.Img variant="top" src="images/nimble.png" alt="Project 1" />
+                  <Card.Body>
+                    <Card.Title>Nimble Smart Cloud</Card.Title>
+                    <Card.Text>The core of all services at Nimble, Smart Cloud allows clients to manage their documents through the cloud. Whether the document originated physically or digitally, users can view, annotate, and delete documents at an enterprise level.</Card.Text>
+                    <div>
+                      <Button href="/nflscoreboard">View Project</Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Carousel.Item>
               <Carousel.Item>
                 <Card>
                   <Card.Img variant="top" src="images/scoreboard.png" alt="Project 1" />

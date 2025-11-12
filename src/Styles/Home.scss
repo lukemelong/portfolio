@@ -102,6 +102,36 @@
   }
 }
 
+.page-subtitle {
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  color: black;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+
+  &::after {
+    content: "|";
+    display: inline-block;
+    animation: blink 1s step-start infinite;
+    color: black;
+  }
+
+  @media (min-width: $sm) {
+    font-size: 25px;
+  }
+
+  @media (min-width: $md) {
+    font-size: 30px;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 /* -------------------------------
    Sections content styling
 --------------------------------*/
