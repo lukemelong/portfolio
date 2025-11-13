@@ -15,7 +15,7 @@
   height: 100vh;
   z-index: 0;
   pointer-events: auto;
-  transform: none !important; // keep it perfectly static
+  transform: none !important;
 }
 
 .content-wrapper {
@@ -35,7 +35,7 @@
   justify-content: center;
   padding: 60px 20px;
   color: white;
-  background-color: transparent; // always see snow behind
+  background-color: transparent;
 
   h2 {
     font-family: "Kode Mono", monospace;
@@ -55,19 +55,24 @@
 
 .name-container {
   width: 500px;
+
   @media (min-width: $sm) {
     width: 800px;
   }
+
   @media (min-width: $md) {
     width: 1000px;
   }
+
   @media (min-width: $lg) {
     width: 1300px;
   }
+
   @media (min-width: $xl) {
     width: 1500px;
   }
 }
+
 .handwrite text {
   font-family: "Kode Mono", monospace;
   fill: none;
@@ -82,14 +87,17 @@
     stroke-dasharray: 800;
     stroke-dashoffset: 800;
   }
+
   @media (min-width: $md) {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
   }
+
   @media (min-width: $lg) {
     stroke-dasharray: 1300;
     stroke-dashoffset: 1300;
   }
+
   @media (min-width: $xl) {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
@@ -138,8 +146,8 @@
 .home-projects,
 .home-about,
 .home-contact {
-  background-color: transparent; // ensure always see background
-  color: #fff; // readable on dark sky
+  background-color: transparent;
+  color: #fff;
 }
 
 .clickable {
@@ -148,13 +156,86 @@
 
 .home-projects {
   margin-top: 60px;
+  align-items: center;
+  width: 100%;
 }
 
+/* Carousel container - confined width for content */
 .home-projects .carousel {
   max-width: 800px;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: $md) {
+    width: 85%;
+  }
+
+  @media (max-width: $sm) {
+    width: 95%;
+  }
+}
+
+/* Carousel inner content */
+.home-projects .carousel-inner {
+  width: 100%;
+}
+
+/* Transparent card styling */
+.home-projects .card {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+
+.home-projects .card-img-top {
+  border-radius: 8px;
+}
+
+.home-projects .card-title,
+.home-projects .card-text {
+  color: #fff;
+}
+
+/* Position controls at viewport edges - fixed positioning */
+.home-projects .carousel-control-prev,
+.home-projects .carousel-control-next {
+  position: fixed;
+  width: auto;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.home-projects .carousel-control-prev {
+  left: 20px;
+
+  @media (max-width: $sm) {
+    left: 10px;
+  }
+}
+
+.home-projects .carousel-control-next {
+  right: 20px;
+
+  @media (max-width: $sm) {
+    right: 10px;
+  }
+}
+
+/* Adjust control icons for better visibility on transparent background */
+.home-projects .carousel-control-prev-icon,
+.home-projects .carousel-control-next-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
 }
 
 .carousel-indicators [data-bs-target] {
@@ -166,9 +247,13 @@
   flex-direction: column;
   justify-content: center;
   padding: 50px 15%;
-  min-height: 300px;;
+  min-height: 300px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 8px 8px;
+
   @media (max-width: $sm) {
     min-height: 330px;
+    padding: 30px 10%;
   }
 }
 
@@ -177,12 +262,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
 .home-about {
   min-height: 80vh;
   background-image: linear-gradient(to bottom, rgb(0, 0, 0, 0.5), transparent);
 }
+
 .home-contact {
   margin-bottom: 100px;
 }
