@@ -1,20 +1,22 @@
 import '../Styles/Layout.scss'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
 import { Link, Outlet } from "react-router-dom"
 
 function Layout() {
   return (
     <>
       <Navbar expand="lg" variant="light" className="position-sticky top-0 z-10">
-          <Navbar.Brand as={Link} to="/" className="nav-logo">
+        <div className="nav-cont">
+          <div as={Link} to="/" className="nav-logo">
             LM
-          </Navbar.Brand>
-          {/*<Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              {/* Add your navigation links here }
-            </Nav>
-          </Navbar.Collapse> */}
+          </div>
+          <a href="https://github.com/lukemelong" target='_blank'>
+            <i className="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/luke-melong/" target='_blank'>
+            <i className="bi bi-linkedin"></i>
+          </a>
+        </div>
       </Navbar>
       <Outlet />
     </>

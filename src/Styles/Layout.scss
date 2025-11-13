@@ -12,7 +12,6 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -39,17 +38,31 @@ nav {
       color: $nav-link-color-hover;
     }
   }
-
+  .nav-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0 10px;
+    background-color: $indigo-dye;
+    margin-left: 30px;
+    i {
+      color: white;
+      transition: color 0.2s ease-out;
+      font-size: 25px;
+      &:hover {
+        color: $nav-link-color-hover;
+      }
+    }
+  }
   .nav-logo {
     font-family: "Kode Mono", monospace;
     font-weight: 400;
     font-size: 40px;
     font-style: normal;
+    background-color: $indigo-dye;
     color: white;
-    background-color: $nav-bg-color;
     transition: color 0.2s ease-out;
-    margin: 0 0 0 30px;
-    padding: 0 10px;
     border-radius: 0 0 2px 2px;
     cursor: default;
 
@@ -58,4 +71,8 @@ nav {
     }
   }
 
+}
+
+.social-container {
+  background-color: $indigo-dye;
 }
