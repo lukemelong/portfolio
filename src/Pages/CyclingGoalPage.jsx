@@ -614,7 +614,7 @@ export default function CyclingGoalPage() {
         .back-btn {
           position: fixed;
           top: 20px;
-          right: 24px;
+          left: 24px;
           z-index: 100;
           width: 40px;
           height: 40px;
@@ -644,7 +644,7 @@ export default function CyclingGoalPage() {
 
         {/* Back button */}
         <a href="/" className="back-btn" title="Back to home">
-          <img src="YOUR_IMAGE_URL_HERE" alt="Home" />
+          <img src="./logo192.png" alt="Home" />
         </a>
 
         {/* Main */}
