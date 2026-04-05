@@ -10,6 +10,9 @@ function Layout() {
           <div as={Link} to="/" className="nav-logo">
             LM
           </div>
+          <Link to="/cycling-goal" title="Cycling Goal">
+            <i className="bi bi-bicycle"></i>
+          </Link>
           <a href="https://github.com/lukemelong" target='_blank'>
             <i className="bi bi-github"></i>
           </a>
