@@ -200,10 +200,10 @@
   color: #fff;
 }
 
-/* Position controls at viewport edges - fixed positioning */
+/* Position controls at viewport edges - absolute positioning within section */
 .home-projects .carousel-control-prev,
 .home-projects .carousel-control-next {
-  position: fixed;
+  position: absolute;
   width: auto;
   opacity: 0.8;
   transition: opacity 0.3s ease;
@@ -217,18 +217,18 @@
 }
 
 .home-projects .carousel-control-prev {
-  left: 20px;
+  left: 0;
 
   @media (max-width: $sm) {
-    left: 10px;
+    left: 0;
   }
 }
 
 .home-projects .carousel-control-next {
-  right: 20px;
+  right: 0;
 
   @media (max-width: $sm) {
-    right: 10px;
+    right: 0;
   }
 }
 

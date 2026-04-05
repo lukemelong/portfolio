@@ -93,7 +93,7 @@ function Home() {
                     <Card.Title>Nimble Smart Cloud</Card.Title>
                     <Card.Text>The core of all services at Nimble, Smart Cloud allows enterprise level management of all a clients documents.</Card.Text>
                     <div>
-                      <Button href="/nflscoreboard">View Project</Button>
+                      <Button href="https://nimble.ca/digital-mailroom/">View Project</Button>
                     </div>
                   </Card.Body>
                 </Card>
