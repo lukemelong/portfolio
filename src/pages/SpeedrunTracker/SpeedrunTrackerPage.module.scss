@@ -119,95 +119,20 @@ $amber:       #ffb340;
 .resetBtn  { background: $surface; color: $muted; border: 1px solid $border; }
 
 // ── Bonfire ───────────────────────────────────────────────────────────────────
-@keyframes flickerA {
-  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.9; }
-  30%  { transform: translateX(-50%) scaleX(0.88) scaleY(1.07); opacity: 1;   }
-  60%  { transform: translateX(-50%) scaleX(1.09) scaleY(0.94); opacity: 0.85;}
-  100% { transform: translateX(-50%) scaleX(0.95) scaleY(1.03); opacity: 0.95;}
-}
-@keyframes flickerB {
-  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 1;   }
-  35%  { transform: translateX(-50%) scaleX(1.1)  scaleY(0.91); opacity: 0.9; }
-  65%  { transform: translateX(-50%) scaleX(0.87) scaleY(1.09); opacity: 0.95;}
-  100% { transform: translateX(-50%) scaleX(1.04) scaleY(0.97); opacity: 1;   }
-}
-@keyframes bonfireGlow {
-  0%, 100% { opacity: 0.5; transform: scale(0.92); }
-  50%       { opacity: 1;   transform: scale(1.08); }
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .bonfire {
-  position: relative;
-  width: 24px;
-  height: 42px;
   flex-shrink: 0;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -12px;
-    background: radial-gradient(circle at 50% 60%, rgba(255, 120, 20, 0.2), transparent 65%);
-    animation: bonfireGlow 1.6s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-}
-
-.flameOuter {
-  position: absolute;
-  bottom: 7px;
-  left: 50%;
-  width: 18px;
-  height: 28px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 85%, #ff3300 0%, #ff7700 45%, transparent 75%);
-  border-radius: 50% 50% 25% 25%;
-  animation: flickerA 1.45s ease-in-out infinite alternate;
-}
-
-.flameMid {
-  position: absolute;
-  bottom: 9px;
-  left: 50%;
-  width: 11px;
-  height: 20px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 85%, #ffaa00 0%, #ffcc33 50%, transparent 75%);
-  border-radius: 50% 50% 20% 20%;
-  animation: flickerB 1.0s ease-in-out infinite alternate-reverse;
-}
-
-.flameInner {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  width: 6px;
-  height: 12px;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 85%, #fff9e0 0%, #ffee88 60%, transparent);
-  border-radius: 50% 50% 20% 20%;
-  animation: flickerA 0.72s ease-in-out infinite alternate;
-}
-
-.flameLogs {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 22px;
-  height: 7px;
-  background: #3d1f00;
-  border-radius: 3px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 50%;
-    transform: translateX(-50%) rotate(38deg);
-    width: 18px;
-    height: 5px;
-    background: #2e1500;
-    border-radius: 2px;
+  img {
+    display: block;
+    height: 64px;
+    width: auto;
+    mix-blend-mode: screen;
   }
 }
 

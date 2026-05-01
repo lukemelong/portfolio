@@ -175,12 +175,11 @@ export default function SpeedrunTrackerPage() {
 
       {/* Header */}
       <header className={styles.header}>
-        <h1 className={styles.title}>Speedrun Race</h1>
-        <div className={styles.bonfire}>
-          <div className={styles.flameOuter} />
-          <div className={styles.flameMid} />
-          <div className={styles.flameInner} />
-          <div className={styles.flameLogs} />
+        <div className={styles.titleArea}>
+          <div className={styles.bonfire}>
+            <img src="/images/bonfire.gif" alt="" />
+          </div>
+          <h1 className={styles.title}>Dark Souls Challenge</h1>
         </div>
         <div className={styles.roomCodeArea}>
           <span className={styles.roomCode}>{roomCode}</span>
