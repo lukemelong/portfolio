@@ -1,0 +1,499 @@
+// All styles scoped to .page so the cycling-goal route stays self-contained
+// without polluting body/global styles. Class names stay kebab-case to match
+// the source the page was extracted from; JSX accesses them via bracket
+// notation (styles['bar-inner']).
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background: #0a0a0a;
+  color: #e8e8e8;
+  font-family: 'Barlow', sans-serif;
+  position: relative;
+  overflow: hidden;
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Subtle grid texture
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ── Orange glow blob ───────────────────────────────
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(252,76,2,0.08) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Back button ───────────────────────────────────
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #161616;
+  border: 1px solid #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+
+  &:hover { background: #1e1e1e; border-color: #333; }
+
+  img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+}
+
+// ── Main grid ─────────────────────────────────────
+.main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 60px 64px;
+  gap: 64px;
+  min-height: calc(100vh - 72px);
+}
+
+// ── Hero text ─────────────────────────────────────
+.hero {
+  text-align: left;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+
+  &.visible { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fc4c02;
+  margin-bottom: 16px;
+}
+
+.hero-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fc4c02;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(52px, 10vw, 96px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #e8e8e8;
+  margin-bottom: 16px;
+
+  span { color: #fc4c02; }
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: #777;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+// ── Card ──────────────────────────────────────────
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: #111;
+  border: 1px solid #1e1e1e;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+
+  &.visible { opacity: 1; transform: translateY(0); }
+}
+
+// ── Error ─────────────────────────────────────────
+.error-box {
+  background: rgba(229,57,53,0.08);
+  border: 1px solid rgba(229,57,53,0.2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.error-hint { color: #444; font-size: 11px; }
+
+// ── Big number ────────────────────────────────────
+.big-stat { margin-bottom: 32px; }
+
+.km-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 1;
+}
+
+.km-number {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 88px;
+  font-weight: 900;
+  color: #e8e8e8;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.km-unit {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: #666;
+}
+
+.km-goal {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-top: 6px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+// ── Progress bar ──────────────────────────────────
+.bar-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bar-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.bar-section {
+  padding-top: 52px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.bar-outer {
+  position: relative;
+  height: 10px;
+  background: #1a1a1a;
+  border-radius: 100px;
+  overflow: visible;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.bar-inner {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
+
+  &.on-track {
+    background: linear-gradient(90deg, #166a34, #22c55e, #4ade80);
+    box-shadow: 0 0 20px rgba(34,197,94,0.3);
+  }
+
+  &.close,
+  &.slight {
+    background: linear-gradient(90deg, #c43800, #fc4c02, #ff7b42);
+    box-shadow: 0 0 20px rgba(252,76,2,0.3);
+  }
+
+  &.behind {
+    background: linear-gradient(90deg, #991111, #e53935);
+  }
+}
+
+// Progress tip marker — sits at end of filled bar
+.progress-marker {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  height: 52px;
+  justify-content: flex-end;
+}
+
+.progress-marker-label {
+  position: absolute;
+  bottom: 30px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: 'Barlow Condensed', sans-serif;
+
+  &.on-track       { color: #22c55e; }
+  &.close, &.slight { color: #fc4c02; }
+  &.behind         { color: #e53935; }
+}
+
+.progress-marker-line {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.15);
+}
+
+// Expected pace marker
+.pace-marker {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  height: 52px;
+  justify-content: flex-end;
+}
+
+.pace-marker-label {
+  position: absolute;
+  bottom: 46px;
+  font-size: 9px;
+  color: #777;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.pace-marker-line {
+  width: 1px;
+  height: 30px;
+  background: #2a2a2a;
+}
+
+// ── Status row ────────────────────────────────────
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  margin-top: 6px;
+}
+
+.pct-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 100px;
+  color: #fff;
+
+  &.on-track       { background: #22c55e; }
+  &.close, &.slight { background: #fc4c02; }
+  &.behind         { background: #e53935; }
+}
+
+.track-status {
+  font-size: 12px;
+  color: #666;
+  font-weight: 300;
+}
+
+// ── Divider ───────────────────────────────────────
+.divider {
+  height: 1px;
+  background: #1a1a1a;
+  margin-bottom: 28px;
+}
+
+// ── Stats grid ────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #141414;
+  border-radius: 10px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.stat-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e8e8e8;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+
+  &.accent-on-track { color: #22c55e; }
+  &.accent-close,
+  &.accent-slight   { color: #fc4c02; }
+  &.accent-behind   { color: #e53935; }
+}
+
+.stat-value-unit {
+  font-size: 13px;
+  color: #666;
+  font-weight: 400;
+}
+
+// ── Footer row ────────────────────────────────────
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.strava-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #2a2a2a;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.strava-badge-time { color: #1e1e1e; }
+
+.refresh-btn {
+  background: #161616;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
+  color: #333;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover { color: #888; border-color: #333; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+// ── Page footer ───────────────────────────────────
+.page-footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 24px 40px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  font-size: 11px;
+  color: #222;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+// ── Loading skeleton ──────────────────────────────
+.skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ── Responsive ────────────────────────────────────
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+    padding: 40px 24px;
+    gap: 40px;
+  }
+  .hero { text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .main { padding: 32px 16px; }
+  .card { padding: 28px 24px; }
+  .km-number { font-size: 68px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
