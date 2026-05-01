@@ -145,6 +145,20 @@ export default function SpeedrunTrackerPage() {
   // ── Render: main page ─────────────────────────────────────────────────────
   return (
     <div className={styles.page}>
+      {/* SVG filter powering the fog smoke layers */}
+      <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+        <defs>
+          <filter id="smoke-turbulence" x="-60%" y="-60%" width="220%" height="220%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.048" numOctaves="4" seed="9" result="noise">
+              <animate attributeName="baseFrequency"
+                values="0.018 0.048; 0.028 0.075; 0.012 0.035; 0.018 0.048"
+                dur="28s" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Connection error */}
       <AnimatePresence>
         {error && (
@@ -162,6 +176,12 @@ export default function SpeedrunTrackerPage() {
       {/* Header */}
       <header className={styles.header}>
         <h1 className={styles.title}>Speedrun Race</h1>
+        <div className={styles.bonfire}>
+          <div className={styles.flameOuter} />
+          <div className={styles.flameMid} />
+          <div className={styles.flameInner} />
+          <div className={styles.flameLogs} />
+        </div>
         <div className={styles.roomCodeArea}>
           <span className={styles.roomCode}>{roomCode}</span>
           <button className={styles.copyBtn} onClick={handleCopyLink}>
@@ -205,6 +225,13 @@ export default function SpeedrunTrackerPage() {
             onUpdateName={(name) => actions.updateName(player.slot, name)}
           />
         ))}
+        {/* Fog overlay — absolutely positioned so it's always above both columns */}
+        <div className={styles.fogOverlay}>
+          <div className={styles.smoke1} />
+          <div className={styles.smoke2} />
+          <div className={styles.smoke3} />
+          <div className={styles.smoke4} />
+        </div>
       </div>
 
     </div>

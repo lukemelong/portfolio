@@ -118,17 +118,219 @@ $amber:       #ffb340;
 .pauseBtn  { background: $amber;  color: #000; }
 .resetBtn  { background: $surface; color: $muted; border: 1px solid $border; }
 
+// ── Bonfire ───────────────────────────────────────────────────────────────────
+@keyframes flickerA {
+  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.9; }
+  30%  { transform: translateX(-50%) scaleX(0.88) scaleY(1.07); opacity: 1;   }
+  60%  { transform: translateX(-50%) scaleX(1.09) scaleY(0.94); opacity: 0.85;}
+  100% { transform: translateX(-50%) scaleX(0.95) scaleY(1.03); opacity: 0.95;}
+}
+@keyframes flickerB {
+  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 1;   }
+  35%  { transform: translateX(-50%) scaleX(1.1)  scaleY(0.91); opacity: 0.9; }
+  65%  { transform: translateX(-50%) scaleX(0.87) scaleY(1.09); opacity: 0.95;}
+  100% { transform: translateX(-50%) scaleX(1.04) scaleY(0.97); opacity: 1;   }
+}
+@keyframes bonfireGlow {
+  0%, 100% { opacity: 0.5; transform: scale(0.92); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
+.bonfire {
+  position: relative;
+  width: 24px;
+  height: 42px;
+  flex-shrink: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    background: radial-gradient(circle at 50% 60%, rgba(255, 120, 20, 0.2), transparent 65%);
+    animation: bonfireGlow 1.6s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+}
+
+.flameOuter {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  width: 18px;
+  height: 28px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 85%, #ff3300 0%, #ff7700 45%, transparent 75%);
+  border-radius: 50% 50% 25% 25%;
+  animation: flickerA 1.45s ease-in-out infinite alternate;
+}
+
+.flameMid {
+  position: absolute;
+  bottom: 9px;
+  left: 50%;
+  width: 11px;
+  height: 20px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 85%, #ffaa00 0%, #ffcc33 50%, transparent 75%);
+  border-radius: 50% 50% 20% 20%;
+  animation: flickerB 1.0s ease-in-out infinite alternate-reverse;
+}
+
+.flameInner {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  width: 6px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 85%, #fff9e0 0%, #ffee88 60%, transparent);
+  border-radius: 50% 50% 20% 20%;
+  animation: flickerA 0.72s ease-in-out infinite alternate;
+}
+
+.flameLogs {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 7px;
+  background: #3d1f00;
+  border-radius: 3px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%) rotate(38deg);
+    width: 18px;
+    height: 5px;
+    background: #2e1500;
+    border-radius: 2px;
+  }
+}
+
+// ── Fog overlay ───────────────────────────────────────────────────────────────
+
+// Two distinct drift patterns so the layers never feel synchronised
+@keyframes smokeRise {
+  0%   { transform: translateY(0)    scaleX(1);    opacity: 0.7;  }
+  30%  { transform: translateY(-7%)  scaleX(1.07); opacity: 1;    }
+  60%  { transform: translateY(5%)   scaleX(0.93); opacity: 0.8;  }
+  100% { transform: translateY(-11%) scaleX(1.06); opacity: 0.6;  }
+}
+
+@keyframes smokeBillow {
+  0%   { transform: translateY(0)   scaleX(1)    scaleY(1);    opacity: 0.75; }
+  25%  { transform: translateY(-4%) scaleX(0.95) scaleY(1.04); opacity: 1;    }
+  55%  { transform: translateY(-9%) scaleX(1.1)  scaleY(0.96); opacity: 0.8;  }
+  80%  { transform: translateY(-3%) scaleX(0.92) scaleY(1.06); opacity: 0.9;  }
+  100% { transform: translateY(-13%)scaleX(1.05) scaleY(0.98); opacity: 0.65; }
+}
+
+.fogOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+
+  backdrop-filter: blur(7px) brightness(1.14);
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 28%,
+    black 72%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 28%,
+    black 72%,
+    transparent 100%
+  );
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(120, 148, 255, 0.12) 25%,
+    rgba(140, 165, 255, 0.22) 50%,
+    rgba(120, 148, 255, 0.12) 75%,
+    transparent
+  );
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+// Each smoke layer: different gradient placement, blur depth, speed, and phase.
+// They share position: absolute and the turbulence SVG filter.
+.smoke1, .smoke2, .smoke3, .smoke4 {
+  position: absolute;
+  inset: -25% -25%;
+}
+
+// Slow tall column — the backbone of the smoke
+.smoke1 {
+  background:
+    radial-gradient(ellipse 52% 80% at 48% 58%, rgba(145, 170, 255, 0.48), transparent 65%),
+    radial-gradient(ellipse 34% 50% at 62% 22%, rgba(120, 150, 255, 0.32), transparent 58%);
+  filter: url(#smoke-turbulence) blur(5px);
+  animation: smokeRise 24s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+
+// Medium speed, leans right, mid-column billowing
+.smoke2 {
+  background:
+    radial-gradient(ellipse 46% 68% at 55% 42%, rgba(130, 158, 255, 0.42), transparent 62%),
+    radial-gradient(ellipse 54% 38% at 44% 82%, rgba(150, 175, 255, 0.30), transparent 55%);
+  filter: url(#smoke-turbulence) blur(8px);
+  animation: smokeBillow 19s ease-in-out infinite alternate-reverse;
+  animation-delay: -7s;
+}
+
+// Slower wisps — leans left, thinner
+.smoke3 {
+  background:
+    radial-gradient(ellipse 38% 82% at 45% 62%, rgba(125, 155, 255, 0.38), transparent 60%),
+    radial-gradient(ellipse 28% 48% at 57% 14%, rgba(140, 165, 255, 0.26), transparent 52%);
+  filter: url(#smoke-turbulence) blur(4px);
+  animation: smokeRise 15s ease-in-out infinite alternate;
+  animation-delay: -4s;
+}
+
+// Slowest, very diffuse — adds body at the base
+.smoke4 {
+  background:
+    radial-gradient(ellipse 65% 52% at 50% 78%, rgba(135, 160, 255, 0.30), transparent 60%),
+    radial-gradient(ellipse 58% 62% at 50% 22%, rgba(115, 145, 255, 0.26), transparent 58%);
+  filter: url(#smoke-turbulence) blur(12px);
+  animation: smokeBillow 30s ease-in-out infinite alternate;
+  animation-delay: -14s;
+}
+
 // ── Player grid ───────────────────────────────────────────────────────────────
 .playerGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: $border;
   flex: 1;
   margin-top: 1rem;
+  position: relative;
+  overflow: hidden; // clips fog layers that extend beyond grid bounds
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    gap: 4px;
+    background: rgba(130, 155, 255, 0.25);
   }
 }
 
@@ -141,6 +343,7 @@ $amber:       #ffb340;
   padding: 1.5rem 1rem 2rem;
   gap: 1rem;
   position: relative;
+  z-index: 1; // keeps columns below the fog overlay (z-index: 10)
 }
 
 .columnP1 { --accent: #{$p1}; }
