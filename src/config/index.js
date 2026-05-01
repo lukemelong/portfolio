@@ -14,4 +14,7 @@ export const config = {
   contact: {
     endpoint: process.env.REACT_APP_EMAIL_ENDPOINT ?? 'https://lukemelong.com/send-email.php',
   },
+  speedrun: {
+    apiUrl: process.env.REACT_APP_SPEEDRUN_API_URL ?? 'https://lukemelong.com/speedrun-api.php',
+  },
 };

@@ -5,6 +5,7 @@ import Layout from './pages/Layout/Layout';
 import Home from './pages/Home/Home';
 import CyclingGoalPage from './pages/CyclingGoal/CyclingGoalPage';
 import NflScoreboardPage from './pages/NflScoreboard/NflScoreboardPage';
+import SpeedrunTrackerPage from './pages/SpeedrunTracker/SpeedrunTrackerPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         </Route>
         <Route path="/cycling-goal" element={<CyclingGoalPage />} />
         <Route path="/nfl-scoreboard" element={<NflScoreboardPage />} />
+        <Route path="/speedrun" element={<SpeedrunTrackerPage />} />
       </Routes>
     </BrowserRouter>
   );
