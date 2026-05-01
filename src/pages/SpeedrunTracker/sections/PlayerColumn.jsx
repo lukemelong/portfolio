@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../SpeedrunTrackerPage.module.scss';
+import { playItsTimeSound } from '../sounds';
 
 function formatTime(ms) {
   if (ms < 0) ms = 0;
@@ -11,6 +12,23 @@ function formatTime(ms) {
   const pad = (n) => String(n).padStart(2, '0');
   if (h > 0) return `${h}:${pad(m)}:${pad(s)}.${pad(cs)}`;
   return `${pad(m)}:${pad(s)}.${pad(cs)}`;
+}
+
+// Renders each digit in a fixed-width slot so the timer doesn't jiggle
+// when proportional-font glyphs change width.
+function TimerDigits({ value }) {
+  return value.split('').map((ch, i) => (
+    <span
+      key={i}
+      style={{
+        display: 'inline-block',
+        width: /\d/.test(ch) ? '1ch' : '0.45ch',
+        textAlign: 'center',
+      }}
+    >
+      {ch}
+    </span>
+  ));
 }
 
 /**
@@ -29,7 +47,9 @@ export default function PlayerColumn({
 }) {
   const [nameInput, setNameInput] = useState(player.name);
   const [justFinished, setJustFinished] = useState(false);
+  const [youDiedVisible, setYouDiedVisible] = useState(false);
   const prevStoppedRef = useRef(player.stopped);
+  const prevDeathsRef = useRef(player.deaths);
   const nameDebounceRef = useRef(null);
 
   // Keep local name in sync with remote updates (other player's view)
@@ -46,6 +66,21 @@ export default function PlayerColumn({
     }
     prevStoppedRef.current = player.stopped;
   }, [player.stopped]);
+
+  useEffect(() => {
+    if (itsTimeVisible) playItsTimeSound();
+  }, [itsTimeVisible]);
+
+  // YOU DIED flash on death increment
+  useEffect(() => {
+    const prev = prevDeathsRef.current;
+    prevDeathsRef.current = player.deaths;
+    if (player.deaths > prev) {
+      setYouDiedVisible(true);
+      const id = setTimeout(() => setYouDiedVisible(false), 1600);
+      return () => clearTimeout(id);
+    }
+  }, [player.deaths]);
 
   const handleNameChange = (e) => {
     const val = e.target.value;
@@ -71,6 +106,21 @@ export default function PlayerColumn({
 
   return (
     <div className={`${styles.playerColumn} ${player.slot === 1 ? styles.columnP1 : styles.columnP2}`}>
+      {/* YOU DIED full-column flash */}
+      <AnimatePresence>
+        {youDiedVisible && (
+          <motion.div
+            className={styles.youDiedOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            You Died
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className={styles.accentBar} />
 
       <input
@@ -89,7 +139,7 @@ export default function PlayerColumn({
         animate={justFinished ? { scale: [1, 1.18, 0.96, 1.06, 1] } : {}}
         transition={{ duration: 0.5 }}
       >
-        {formatTime(displayMs)}
+        <TimerDigits value={formatTime(displayMs)} />
       </motion.div>
 
       {/* Finished label + winner badge */}
@@ -100,15 +150,15 @@ export default function PlayerColumn({
             animate={{ opacity: 1, y: 0 }}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}
           >
-            <span className={styles.finishedLabel}>✓ Finished</span>
-            {isWinner && <span className={styles.winnerBadge}>🏆 Winner</span>}
+            <span className={styles.finishedLabel}>Victory Achieved</span>
+            {isWinner && <span className={styles.winnerBadge}>☀ Praise the Sun</span>}
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Death counter */}
       <div className={styles.deathSection}>
-        <span className={styles.deathLabel}>Deaths</span>
+        <span className={styles.deathLabel}>You Died</span>
 
         <motion.span
           key={player.deaths}
@@ -126,7 +176,7 @@ export default function PlayerColumn({
           disabled={!isOwner}
           aria-label="Add one death"
         >
-          ☠️ +1 DEATH
+          ☠ Died
         </button>
       </div>
 
@@ -140,7 +190,7 @@ export default function PlayerColumn({
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: 'spring', stiffness: 360, damping: 22 }}
           >
-            ⚔️ It&apos;s Time!
+            ⚔ The Bell Tolls
           </motion.div>
         )}
       </AnimatePresence>
@@ -157,7 +207,7 @@ export default function PlayerColumn({
             whileTap={{ scale: 0.95 }}
             style={{ marginTop: 'auto' }}
           >
-            FINISH RUN
+            Link the Fire
           </motion.button>
         )}
       </AnimatePresence>

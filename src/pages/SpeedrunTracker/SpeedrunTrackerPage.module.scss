@@ -4,7 +4,7 @@
 $bg:          #0a0a12;
 $surface:     #13131f;
 $border:      #2a2a3a;
-$p1:          #4d9fff;
+$p1:          #f4a827;
 $p2:          #ff6b4d;
 $text:        #e8e8ff;
 $muted:       #7070a0;
@@ -36,9 +36,10 @@ $amber:       #ffb340;
 }
 
 .title {
+  font-family: 'Cinzel', serif;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: $muted;
   margin: 0;
@@ -97,11 +98,12 @@ $amber:       #ffb340;
 }
 
 .timerBtn {
+  font-family: 'Cinzel', serif;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   padding: 0.65em 1.6em;
   cursor: pointer;
   transition: opacity 0.15s, transform 0.1s;
@@ -153,6 +155,7 @@ $amber:       #ffb340;
 }
 
 .nameInput {
+  font-family: 'Cinzel', serif;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid $border;
   border-radius: 8px;
@@ -178,7 +181,7 @@ $amber:       #ffb340;
 
 // ── Timer display ─────────────────────────────────────────────────────────────
 .timerDisplay {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Cinzel', serif;
   font-size: clamp(2.5rem, 9vw, 4.5rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -202,6 +205,7 @@ $amber:       #ffb340;
 }
 
 .finishedLabel {
+  font-family: 'Cinzel', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -210,6 +214,7 @@ $amber:       #ffb340;
 }
 
 .winnerBadge {
+  font-family: 'Cinzel', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -223,13 +228,14 @@ $amber:       #ffb340;
 
 // ── Stop / Finish button ──────────────────────────────────────────────────────
 .finishBtn {
+  font-family: 'Cinzel', serif;
   background: rgba($danger, 0.15);
   border: 2px solid $danger;
   color: $danger;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   padding: 0.7em 2em;
   cursor: pointer;
   min-height: 52px;
@@ -251,6 +257,7 @@ $amber:       #ffb340;
 }
 
 .deathLabel {
+  font-family: 'Cinzel', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -267,13 +274,14 @@ $amber:       #ffb340;
 }
 
 .deathBtn {
+  font-family: 'Cinzel', serif;
   background: rgba($danger, 0.12);
   border: 2px solid rgba($danger, 0.4);
   color: $danger;
   border-radius: 10px;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   padding: 0.75em 0;
   cursor: pointer;
   width: 100%;
@@ -288,6 +296,25 @@ $amber:       #ffb340;
     cursor: not-allowed;
     transform: none;
   }
+}
+
+// ── YOU DIED overlay ──────────────────────────────────────────────────────────
+.youDiedOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(80, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  color: #cc1111;
+  text-shadow: 0 0 40px rgba(#cc1111, 0.7), 0 2px 0 #000;
+  text-transform: uppercase;
 }
 
 // ── Slot picker ───────────────────────────────────────────────────────────────
@@ -313,6 +340,7 @@ $amber:       #ffb340;
 }
 
 .slotTitle {
+  font-family: 'Cinzel', serif;
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
@@ -371,6 +399,10 @@ $amber:       #ffb340;
 
 // ── It's Time! in-column banner ───────────────────────────────────────────────
 .itsTimeColumnBanner {
+  position: absolute;
+  bottom: 5.5rem;
+  left: 1rem;
+  right: 1rem;
   background: $gold;
   color: #000;
   font-size: 1.2rem;
@@ -382,8 +414,7 @@ $amber:       #ffb340;
   box-shadow: 0 4px 30px rgba($gold, 0.5);
   pointer-events: none;
   text-align: center;
-  width: 100%;
-  max-width: 240px;
+  z-index: 30;
 }
 
 // ── Loading / centering util ──────────────────────────────────────────────────

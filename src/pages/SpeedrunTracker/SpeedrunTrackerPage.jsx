@@ -177,7 +177,7 @@ export default function SpeedrunTrackerPage() {
             className={`${styles.timerBtn} ${isRunning ? styles.pauseBtn : styles.startBtn}`}
             onClick={handleTimerAction}
           >
-            {isRunning ? '⏸ Pause' : isIdle ? '▶ Start' : '▶ Resume'}
+            {isRunning ? '⏸ Rest' : isIdle ? '▶ Kindle' : '▶ Rise Again'}
           </button>
         )}
         <button
@@ -185,7 +185,7 @@ export default function SpeedrunTrackerPage() {
           onClick={actions.reset}
           disabled={isIdle && !bothStopped}
         >
-          ↺ Reset
+          ↺ Return to Bonfire
         </button>
       </div>
 
