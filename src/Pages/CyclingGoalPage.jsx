@@ -99,28 +99,44 @@ export default function CyclingGoalPage() {
   const daysElapsed = Math.max(0, Math.min(daysBetween(CONFIG.START_DATE, today), totalDays));
   const daysLeft = Math.max(0, daysBetween(today, CONFIG.END_DATE));
   const timePct = Math.min((daysElapsed / totalDays) * 100, 100);
-  const remaining = Math.max(0, goal - km);
 
-  // Weekly calculations — count partial last week as full week
+  // ── PACE LOGIC ──────────────────────────────────────────────────────────────
+  // Expected daily KM = 1500 / total days in challenge
+  const dailyGoal = goal / totalDays;
+  const expectedKmByNow = dailyGoal * daysElapsed;
+  const kmVsPace = km - expectedKmByNow;          // positive = ahead, negative = behind
+  const kmBehindPace = Math.max(0, -kmVsPace);    // how far behind (0 if ahead)
+
+  // Progress bar / projected: 4 states based on daily expected pace
+  // "on-track"   → ahead of or exactly on pace (to 1 decimal) → green
+  // "close"      → within one day's km but less than on pace → orange "Slightly Behind"
+  // "slight"     → between 1–3 days behind → orange (deeper)
+  // "behind"     → more than 3 days behind → red
+  const kmVsPaceRounded = Math.round(kmVsPace * 10) / 10;
+  const paceState = kmVsPaceRounded >= 0          ? "on-track"
+    : kmBehindPace < dailyGoal                    ? "close"
+    : kmBehindPace <= dailyGoal * 3               ? "slight"
+    : "behind";
+
+  // Weekly pace = avg km/week actually ridden so far
+  // Use whole completed weeks (floor) — avoids inflating avg early in a partial week.
+  // Minimum of 1 so we don't divide by zero in week 1.
+  const weeksElapsed = daysElapsed / 7;
+  const completedWeeks = Math.max(1, Math.floor(daysElapsed / 7));
+  const weeklyPace = km / completedWeeks;
+
+  // Weekly goal and needed per week (for Need/Week card)
   const totalWeeks = Math.ceil(totalDays / 7);
   const weeklyGoal = goal / totalWeeks;
-  const weeksElapsed = daysElapsed / 7;
   const weeksLeft = daysLeft / 7;
-  const weeklyPace = weeksElapsed > 0 ? km / weeksElapsed : 0;
-  const projectedKm = weeklyPace * totalWeeks;
+  const remaining = Math.max(0, goal - km);
   const neededPerWeek = weeksLeft > 0 ? remaining / weeksLeft : 0;
-  const expectedKmByNow = weeklyGoal * weeksElapsed;
-  const kmBehindPace = Math.max(0, expectedKmByNow - km);
-  const pacePct = Math.min((projectedKm / goal) * 100, 100);
-  const onPacePct = Math.min((expectedKmByNow / goal) * 100, 100)
 
-  // Three pace states based on how far behind expected pace
-  // green: within 1 week's worth of KMs (on pace or ahead)
-  // orange: between 1 and 2 weeks behind
-  // red: more than 2 weeks behind
-  const paceState = kmBehindPace <= 0 ? "on-track"
-    : kmBehindPace <= weeklyGoal ? "close"
-    : "behind";
+  // Projected km (for status row)
+  const projectedKm = weeklyPace * totalWeeks;
+
+  // Progress bar percentages
+  const onPacePct = Math.min((expectedKmByNow / goal) * 100, 100);
 
   return (
     <>
@@ -272,7 +288,7 @@ export default function CyclingGoalPage() {
 
         .hero-sub {
           font-size: 15px;
-          color: #444;
+          color: #777;
           font-weight: 300;
           letter-spacing: 0.02em;
         }
@@ -333,13 +349,13 @@ export default function CyclingGoalPage() {
           font-family: 'Barlow Condensed', sans-serif;
           font-size: 32px;
           font-weight: 300;
-          color: #333;
+          color: #666;
         }
 
         .km-goal {
           display: block;
           font-size: 13px;
-          color: #333;
+          color: #666;
           margin-top: 6px;
           font-weight: 300;
           letter-spacing: 0.04em;
@@ -359,7 +375,7 @@ export default function CyclingGoalPage() {
           font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #333;
+          color: #666;
         }
 
         .bar-outer {
@@ -368,7 +384,13 @@ export default function CyclingGoalPage() {
           background: #1a1a1a;
           border-radius: 100px;
           overflow: visible;
-          margin-top: 36px;
+          margin-top: 0;
+          margin-bottom: 8px;
+        }
+
+        .bar-section {
+          padding-top: 52px;
+          position: relative;
           margin-bottom: 8px;
         }
 
@@ -390,6 +412,11 @@ export default function CyclingGoalPage() {
           box-shadow: 0 0 20px rgba(252,76,2,0.3);
         }
 
+        .bar-inner.slight {
+          background: linear-gradient(90deg, #c43800, #fc4c02, #ff7b42);
+          box-shadow: 0 0 20px rgba(252,76,2,0.3);
+        }
+
         .bar-inner.behind {
           background: linear-gradient(90deg, #991111, #e53935);
         }
@@ -397,18 +424,20 @@ export default function CyclingGoalPage() {
         /* Progress tip marker — sits at end of filled bar */
         .progress-marker {
           position: absolute;
-          top: -20px;
+          bottom: 0;
           transform: translateX(-50%);
           z-index: 10;
           display: flex;
           flex-direction: column;
           align-items: center;
           pointer-events: none;
+          height: 52px;
+          justify-content: flex-end;
         }
 
         .progress-marker-label {
           position: absolute;
-          top: -18px;
+          bottom: 30px;
           font-size: 9px;
           font-weight: 700;
           letter-spacing: 0.1em;
@@ -419,31 +448,34 @@ export default function CyclingGoalPage() {
 
         .progress-marker-label.on-track  { color: #22c55e; }
         .progress-marker-label.close     { color: #fc4c02; }
+        .progress-marker-label.slight    { color: #fc4c02; }
         .progress-marker-label.behind    { color: #e53935; }
 
         .progress-marker-line {
           width: 1px;
-          height: 30px;
+          height: 20px;
           background: rgba(255,255,255,0.15);
         }
 
         /* Expected pace marker */
         .pace-marker {
           position: absolute;
-          top: -20px;
+          bottom: 0;
           transform: translateX(-50%);
           z-index: 9;
           display: flex;
           flex-direction: column;
           align-items: center;
           pointer-events: none;
+          height: 52px;
+          justify-content: flex-end;
         }
 
         .pace-marker-label {
           position: absolute;
-          top: -18px;
+          bottom: 46px;
           font-size: 9px;
-          color: #3a3a3a;
+          color: #777;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           white-space: nowrap;
@@ -477,11 +509,12 @@ export default function CyclingGoalPage() {
 
         .pct-badge.on-track { background: #22c55e; }
         .pct-badge.close { background: #fc4c02; }
+        .pct-badge.slight { background: #fc4c02; }
         .pct-badge.behind { background: #e53935; }
 
         .track-status {
           font-size: 12px;
-          color: #333;
+          color: #666;
           font-weight: 300;
         }
 
@@ -513,7 +546,7 @@ export default function CyclingGoalPage() {
           font-family: 'Barlow Condensed', sans-serif;
           font-size: 10px;
           font-weight: 600;
-          color: #2e2e2e;
+          color: #666;
           text-transform: uppercase;
           letter-spacing: 0.12em;
         }
@@ -529,6 +562,7 @@ export default function CyclingGoalPage() {
 
         .stat-value.accent-on-track { color: #22c55e; }
         .stat-value.accent-close { color: #fc4c02; }
+        .stat-value.accent-slight { color: #fc4c02; }
         .stat-value.accent-behind { color: #e53935; }
 
         /* ── FOOTER ROW ── */
@@ -657,7 +691,7 @@ export default function CyclingGoalPage() {
               2026 Season Goal
             </div>
             <h1 className="hero-title">
-              1,500<span>km</span><br />on the bike
+              1,500<span>km</span><br />for the bike
             </h1>
             <p className="hero-sub">
               {formatDate(CONFIG.START_DATE)} — {formatDate(CONFIG.END_DATE)}
@@ -697,7 +731,7 @@ export default function CyclingGoalPage() {
             </div>
 
             {/* Progress bar */}
-            <div className="bar-outer">
+            <div className="bar-section">
               {/* Expected pace marker */}
               {status === "success" && (
                 <div className="pace-marker" style={{ left: `${onPacePct}%` }}>
@@ -709,15 +743,20 @@ export default function CyclingGoalPage() {
               {status === "success" && pct > 0 && (
                 <div className="progress-marker" style={{ left: `${pct}%` }}>
                   <span className={`progress-marker-label ${paceState}`}>
-                    {paceState === "on-track" ? "Ahead of Pace" : paceState === "close" ? "On Pace" : "Behind Pace"}
+                    {paceState === "on-track" ? "On Pace / Ahead"
+                      : paceState === "close" ? "Slightly Behind"
+                      : paceState === "slight" ? "Slightly Behind"
+                      : "Behind Pace"}
                   </span>
                   <div className="progress-marker-line" />
                 </div>
               )}
-              <div
-                className={`bar-inner ${paceState}`}
-                style={{ width: status === "success" ? `${pct}%` : "0%" }}
-              />
+              <div className="bar-outer">
+                <div
+                  className={`bar-inner ${paceState}`}
+                  style={{ width: status === "success" ? `${pct}%` : "0%" }}
+                />
+              </div>
             </div>
 
             {/* Status */}
@@ -730,6 +769,8 @@ export default function CyclingGoalPage() {
                   ? paceState === "on-track"
                     ? `On pace · projected ${projectedKm.toFixed(0)} km`
                     : paceState === "close"
+                    ? `Slightly behind · projected ${projectedKm.toFixed(0)} km`
+                    : paceState === "slight"
                     ? `Slightly behind · projected ${projectedKm.toFixed(0)} km`
                     : `Behind pace · projected ${projectedKm.toFixed(0)} km`
                   : "Loading…"}
@@ -744,7 +785,7 @@ export default function CyclingGoalPage() {
                 <span className="stat-label">Remaining</span>
                 <span className="stat-value">
                   {status === "success" ? `${remaining.toFixed(0)}` : "—"}
-                  <span style={{ fontSize: 13, color: "#333", fontWeight: 400 }}> km</span>
+                  <span style={{ fontSize: 13, color: "#666", fontWeight: 400 }}> km</span>
                 </span>
               </div>
               <div className="stat-card">
@@ -756,24 +797,26 @@ export default function CyclingGoalPage() {
                 <span className="stat-value">{status === "success" ? rides.length : "—"}</span>
               </div>
               <div className="stat-card">
-                <span className="stat-label">Weekly Pace</span>
+                <span className="stat-label">Avg Weekly</span>
                 <span className="stat-value">
                   {status === "success" ? weeklyPace.toFixed(1) : "—"}
-                  <span style={{ fontSize: 13, color: "#333", fontWeight: 400 }}> km</span>
+                  <span style={{ fontSize: 13, color: "#666", fontWeight: 400 }}> km</span>
                 </span>
               </div>
               <div className="stat-card">
                 <span className="stat-label">Need/Week</span>
                 <span className={`stat-value ${status === "success" ? `accent-${paceState}` : ""}`}>
                   {status === "success" ? neededPerWeek.toFixed(1) : "—"}
-                  <span style={{ fontSize: 13, color: "#333", fontWeight: 400 }}> km</span>
+                  <span style={{ fontSize: 13, color: "#666", fontWeight: 400 }}> km</span>
                 </span>
               </div>
               <div className="stat-card">
-                <span className="stat-label">Behind Pace</span>
+                <span className="stat-label">
+                  {status === "success" && kmVsPace >= 0 ? "Ahead of Pace" : "Behind Pace"}
+                </span>
                 <span className={`stat-value ${status === "success" ? `accent-${paceState}` : ""}`}>
-                  {status === "success" ? `${kmBehindPace.toFixed(0)}` : "—"}
-                  <span style={{ fontSize: 13, color: "#333", fontWeight: 400 }}> km</span>
+                  {status === "success" ? `${Math.abs(kmVsPace).toFixed(0)}` : "—"}
+                  <span style={{ fontSize: 13, color: "#666", fontWeight: 400 }}> km</span>
                 </span>
               </div>
             </div>
