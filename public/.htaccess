@@ -1,0 +1,18 @@
+# SPA fallback: serve index.html for any path that isn't a real file or directory
+# so client-side routes (e.g. /cycling-goal, /nfl-scoreboard) survive a direct hit
+# or page refresh on Apache hosting.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Don't rewrite real files or directories
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Leave the contact form's PHP endpoint alone
+  RewriteRule ^send-email\.php$ - [L]
+
+  # Everything else falls through to the SPA
+  RewriteRule ^ index.html [L]
+</IfModule>

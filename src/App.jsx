@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './pages/Layout/Layout';
 import Home from './pages/Home/Home';
 import CyclingGoalPage from './pages/CyclingGoal/CyclingGoalPage';
+import NflScoreboardPage from './pages/NflScoreboard/NflScoreboardPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<Home />} />
         </Route>
         <Route path="/cycling-goal" element={<CyclingGoalPage />} />
+        <Route path="/nfl-scoreboard" element={<NflScoreboardPage />} />
       </Routes>
     </BrowserRouter>
   );

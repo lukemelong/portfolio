@@ -20,7 +20,7 @@ export const projects = [
     description:
       'A personal project for a live updating scoreboard for viewing scores and stats of NFL games each week',
     image: 'images/scoreboard.png',
-    url: '/nflscoreboard',
+    url: '/nfl-scoreboard',
   },
   {
     title: 'Bleacher Report Redesign',
