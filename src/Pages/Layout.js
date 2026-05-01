@@ -1,29 +1,26 @@
 import '../Styles/Layout.scss'
+import { Nav, Navbar } from 'react-bootstrap'
 import { Link, Outlet } from "react-router-dom"
 
 function Layout() {
-
   return (
     <>
-      <nav>
-        <Link to='/'>
-          <h1 className='nav-logo'>LM</h1>
-        </Link>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            <Link to='/About'>About</Link>
-          </li>
-          <li>
-            <Link to='/Projects'>Projects</Link>
-          </li>
-          <li>
-            <Link to='/Contact'>Contact</Link>
-          </li>
-        </ul>
-      </nav>
+      <Navbar expand="lg" variant="light" className="position-sticky top-0 z-10">
+        <div className="nav-cont">
+          <div as={Link} to="/" className="nav-logo">
+            LM
+          </div>
+          <Link to="/cycling-goal" title="Cycling Goal">
+            <i className="bi bi-bicycle"></i>
+          </Link>
+          <a href="https://github.com/lukemelong" target='_blank'>
+            <i className="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/luke-melong/" target='_blank'>
+            <i className="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </Navbar>
       <Outlet />
     </>
   )

@@ -1,10 +1,9 @@
-import{ BrowserRouter, Routes, Route } from 'react-router-dom'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Pages/Layout'
 import Home from './Pages/Home'
-import About from './Pages/About'
-import Projects from './Pages/Projects'
-import Contact from './Pages/Contact'
+import CyclingGoalPage from './Pages/CyclingGoalPage'
 
 function App() {
   return (
@@ -12,10 +11,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/projects' element={<Projects />} />
-          <Route path='/contact' element={<Contact />} />
         </Route>
+        <Route path='/cycling-goal' element={<CyclingGoalPage />} />
       </Routes>
     </BrowserRouter>
   );
